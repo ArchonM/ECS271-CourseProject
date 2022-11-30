@@ -10,6 +10,11 @@ try :
     cursor.execute(sql_query)
     list_of_tables = cursor.fetchall()
     print(list_of_tables)
+    df = pd.read_sql_query("SELECT * from acfg", con)
+
+    # Verify that result of SQL query is stored in the dataframe
+    print(df.head())
+
 
 except sqlite3.Error as error:
     print("Failed to execute above queries", error)
