@@ -16,7 +16,7 @@ try :
     # print(df.head())
     for table_name in list_of_tables :  #Source - https://stackoverflow.com/questions/305378/list-of-tables-db-schema-dump-etc-using-the-python-sqlite3-api/33100538#33100538
         table_name = table_name[0]
-        table = pd.read_sql_query("SELECT * from %s" % table_name, db)
+        table = pd.read_sql_query("SELECT * from %s" % table_name, con)
         table.to_csv(table_name + '.csv', index_label='index')
 
 
