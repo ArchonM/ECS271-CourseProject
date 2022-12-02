@@ -57,7 +57,7 @@ print(type(j_load))
 print("********")
 
 # Actual logic
-paired_features = [] # contains list of mnemonic features from two ids in pair
+test_true_paired_features = [] # contains list of mnemonic features from two ids in pair
 for pairs in list_test_true_pairs :
     pair_feature_list = []
     # print(pairs)
@@ -77,10 +77,10 @@ for pairs in list_test_true_pairs :
         pair_feature_list.append(id_feature)
         # print(pair_feature_list)
         # print("~~~~~~~~~~~~~~~~~")
-    paired_features.append(pair_feature_list)
+    test_true_paired_features.append(pair_feature_list)
     # print("************")
-print(paired_features)
-print(len(paired_features))
+print(test_true_paired_features)
+print(len(test_true_paired_features))
     
 
 
