@@ -5,12 +5,14 @@ import json
 import networkx as nx 
 from networkx import json_graph 
 from ast import literal_eval
+import numpy as np
 
 csv_path = "../../ecsTest/ecs_project/csv_files/"
 cfg_csv_filename = "lstm_cfg.csv"
 test_pair_csv_filename = "test_pairs.csv"
 train_pair_csv_filename = "train_pairs.csv"
 csv_output_file = "final.csv"
+i2id_file_path = "../../ecsTest/word2id.json"
 
 df_cfg = pd.read_csv(csv_path + cfg_csv_filename)
 df_test_pairs = pd.read_csv(csv_path + test_pair_csv_filename)
@@ -56,13 +58,50 @@ list_train_false_pairs = []
 # print(j_load)
 # print(type(j_load))
 # print("********")
+#--------------------------------------------
+# Convert instruction to id
 
+# load i2id json file
+i2id_f = open(i2id_file_path, 'r')
+i2id = json.load(i2id_f)
+i2id_f.close()
+
+def convert_to_ids(instructions_list):
+        ret_array = []
+        # For each instruction we add +1 to its ID because the first
+        # element of the embedding matrix is zero
+        for x in instructions_list:
+            if x in i2id:
+                ret_array.append(i2id[x] + 1)
+            elif 'X_' in x:
+                # print(str(x) + " is not a known x86 instruction")
+                ret_array.append(i2id['X_UNK'] + 1)
+            elif 'A_' in x:
+                # print(str(x) + " is not a known arm instruction")
+                ret_array.append(i2id['A_UNK'] + 1)
+            else:
+                # print("There is a problem " + str(x) + " does not appear to be an asm or arm instruction")
+                ret_array.append(i2id['X_UNK'] + 1)
+        return ret_array
+#--------------------------------------------
+# Normalize
+max_instructions = 100
+
+def normalize(f):
+        f = np.asarray(f[0:max_instructions])
+        length = f.shape[0]
+        if f.shape[0] < max_instructions:
+            f = np.pad(f, (0, max_instructions - f.shape[0]), mode='constant')
+        return f, length
+#----------------------------------------------
 # Actual logic
 # feature extraction for pairs in test_pairs_true_labels. Same could be applied to others pairs i.e test_false_pairs, train_true_pairs, train_false_pairs.
 test_true_paired_features = [] # contains list of mnemonic features from two ids in pair
+test_true_paired_feature_vec = []
 test_true_id_pair_list = []
 for pairs in list_test_true_pairs :
     pair_feature_list = []
+    pair_feature_vec_list = []
     test_true_id_pair_list.append(pairs)
     # print(pairs)
     for ids in pairs :
@@ -79,21 +118,26 @@ for pairs in list_test_true_pairs :
                 id_feature.extend(nodes['features'])
                 # print(id_feature)
         pair_feature_list.append(id_feature)
+        pair_feature_vec_list.append(convert_to_ids(id_feature))
         # print(pair_feature_list)
         # print("~~~~~~~~~~~~~~~~~")
     test_true_paired_features.append(pair_feature_list)
+    test_true_paired_feature_vec.append(pair_feature_vec_list)
+    
     # print("************")
 # print(test_true_paired_features)
+# print(test_true_paired_feature_vec)
 print(len(test_true_paired_features))
+print(len(test_true_paired_feature_vec))
 print(len(test_true_id_pair_list))
 assert(len(test_true_paired_features) == len(test_true_id_pair_list))
 test_true_pair_labels = [1]*len(test_true_paired_features)
 
-test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_paired_features,  'labels': test_true_pair_labels}
+test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_paired_features, 'feature_vec':test_true_paired_feature_vec , 'labels': test_true_pair_labels}
 test_true_pair_df = pd.DataFrame(test_true_pair_dict)
 print(test_true_pair_df)
 print(len(test_true_pair_df))
-test_true_pair_df.to_csv("test_true_pairs.csv", sep='\t')
+test_true_pair_df.to_csv("test_true_pairs.csv", sep=',')
 
 
 
