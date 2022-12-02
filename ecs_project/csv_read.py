@@ -58,16 +58,17 @@ print("********")
 
 # Actual logic
 paired_features = [] # contains list of mnemonic features from two ids in pair
-for pairs in list_test_true_pairs :
+for pairs in list_test_true_pairs[4:6] :
     pair_feature_list = []
     for ids in pairs :
         id_feature = []
         val = df_cfg.loc[df_cfg['id'] == ids]['lstm_cfg']
-        lstm_cfg_feature_dict = val.iloc[len(val)-1]
-        for nodes in lstm_cfg_feature_dict[nodes] :
-            if nodes[features] : 
-                print(nodes[features])
-                id_feature.extend(nodes[features])
+        lstm_cfg_feature = val.iloc[len(val)-1]
+        lstm_cfg_feature_dict = json.loads(lstm_cfg_feature)
+        for nodes in lstm_cfg_feature_dict['nodes'] :
+            if nodes['features'] : 
+                print(nodes['features'])
+                id_feature.extend(nodes['features'])
                 print(id_feature)
         pair_feature_list.append(id_feature)
         print(pair_feature_list)
