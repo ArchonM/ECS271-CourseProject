@@ -43,18 +43,18 @@ print("list_train_true_pairs len : ", len(list_train_true_pairs))
 print("list_train_true_pairs len : ", len(list_train_true_pairs))
 
 # Just to test
-ele = list_test_true_pairs[3][0]
-print(ele)
-val = df_cfg.loc[df_cfg['id'] == ele]['lstm_cfg']
-print(val)
-print(type(val))
-print(len((val)))
-lstm_cfg_feature = val.iloc[len(val)-1]
-print("###########")
-j_load = json.loads(lstm_cfg_feature)
-print(j_load)
-print(type(j_load))
-print("********")
+# ele = list_test_true_pairs[3][0]
+# print(ele)
+# val = df_cfg.loc[df_cfg['id'] == ele]['lstm_cfg']
+# print(val)
+# print(type(val))
+# print(len((val)))
+# lstm_cfg_feature = val.iloc[len(val)-1]
+# print("###########")
+# j_load = json.loads(lstm_cfg_feature)
+# print(j_load)
+# print(type(j_load))
+# print("********")
 
 # Actual logic
 test_true_paired_features = [] # contains list of mnemonic features from two ids in pair
@@ -79,7 +79,7 @@ for pairs in list_test_true_pairs :
         # print("~~~~~~~~~~~~~~~~~")
     test_true_paired_features.append(pair_feature_list)
     # print("************")
-print(test_true_paired_features)
+# print(test_true_paired_features)
 print(len(test_true_paired_features))
     
 
