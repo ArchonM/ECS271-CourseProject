@@ -57,6 +57,7 @@ print("list_train_true_pairs len : ", len(list_train_true_pairs))
 # print("********")
 
 # Actual logic
+# feature extraction for pairs in test_pairs_true_labels. Same could be applied to others pairs i.e test_false_pairs, train_true_pairs, train_false_pairs.
 test_true_paired_features = [] # contains list of mnemonic features from two ids in pair
 for pairs in list_test_true_pairs :
     pair_feature_list = []
