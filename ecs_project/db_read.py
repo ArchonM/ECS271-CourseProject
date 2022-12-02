@@ -1,5 +1,8 @@
 import sqlite3
 import pandas as pd
+import json
+import networkx as nx 
+from networkx import json_graph 
 
 db_path = "/Users/asmitaa/binarySimiliarityProject/OpenSSL_dataset.db"
 try : 
@@ -18,8 +21,7 @@ try :
         table_name = table_name[0]
         table = pd.read_sql_query("SELECT * from %s" % table_name, con)
         table.to_csv(table_name + '.csv', index_label='index')
-
-
+    
 except sqlite3.Error as error:
     print("Failed to execute above queries", error)
 
