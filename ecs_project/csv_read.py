@@ -6,7 +6,7 @@ import networkx as nx
 from networkx import json_graph 
 from ast import literal_eval
 
-csv_path = "../ecsTest/ecs_project/csv_files/"
+csv_path = "../../ecsTest/ecs_project/csv_files/"
 cfg_csv_filename = "lstm_cfg.csv"
 test_pair_csv_filename = "test_pairs.csv"
 train_pair_csv_filename = "train_pairs.csv"
