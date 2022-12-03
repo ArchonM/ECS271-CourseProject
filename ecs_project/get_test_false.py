@@ -38,13 +38,13 @@ list_train_true_pairs = []
 list_train_false_pairs = []
 
 # These are for training pairs, too long , comment when not needed
-for i in range(0, df_train_pairs_shape[0]) :
-    list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
+# for i in range(0, df_train_pairs_shape[0]) :
+#     list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
 
-    list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
+#     list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
 
-print("list_train_true_pairs len : ", len(list_train_true_pairs))
-print("list_train_false_pairs len : ", len(list_train_false_pairs))
+# print("list_train_true_pairs len : ", len(list_train_true_pairs))
+# print("list_train_false_pairs len : ", len(list_train_false_pairs))
 
 # Just to test
 # ele = list_test_true_pairs[3][0]
@@ -161,23 +161,23 @@ test_true_pair_labels = [0]*len(test_true_paired_features)   # False
 
 test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_paired_features, 'feature_ids':test_true_paired_feature_id ,'labels': test_true_pair_labels}
 test_true_pair_dict_vec = {'feature_vec' : test_true_paired_feature_vec ,'labels': test_true_pair_labels}
-test_true_pair_dict_drop = test_true_pair_dict.drop_duplicates()
-test_true_pair_dict_vec_drop = test_true_pair_dict_vec.drop_duplicates()
-test_true_pair_df = pd.DataFrame(test_true_pair_dict_drop)
-test_true_pair_df_vec = pd.DataFrame(test_true_pair_dict_vec_drop)
+test_true_pair_df = pd.DataFrame(test_true_pair_dict)
+test_true_pair_df_vec = pd.DataFrame(test_true_pair_dict_vec)
+# test_true_pair_df_drop = test_true_pair_df.drop_duplicates() # throwing error
+# test_true_pair_df_vec_drop = test_true_pair_df_vec.drop_duplicates()
 print(test_true_pair_df)
 print(len(test_true_pair_dict))
 print(len(test_true_pair_dict_vec))
-print(len(test_true_pair_dict_drop))
-print(len(test_true_pair_dict_vec_drop))
 print(len(test_true_pair_df))
 print(len(test_true_pair_df_vec))
+# print(len(test_true_pair_df_drop))
+# print(len(test_true_pair_df_vec_drop))
 
 # print(len(test_true_paired_feature_vec[0]))
 # print(len(test_true_paired_feature_vec[0][0]))
 # print((test_true_paired_feature_vec[0][0][0].shape))
-test_true_pair_df_vec.to_csv("test_false_new_pairs_vec.csv", sep=',')
-test_true_pair_df.to_csv("test_flase_new_pairs.csv", sep=',') # geneal info
+test_true_pair_df_vec.to_csv("../../ecsTest/ecs_project/test_false_new_pairs_vec.csv", sep=',')
+test_true_pair_df.to_csv("../../ecsTest/ecs_project/test_false_new_pairs.csv", sep=',') # general info
 
 
 
