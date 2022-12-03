@@ -13,6 +13,7 @@ test_pair_csv_filename = "test_pairs.csv"
 train_pair_csv_filename = "train_pairs.csv"
 csv_output_file = "final.csv"
 i2id_file_path = "../../ecsTest/word2id.json"
+embedding_vec_file_path = "../../ecsTest/embedding_matrix.npy"
 
 df_cfg = pd.read_csv(csv_path + cfg_csv_filename)
 df_test_pairs = pd.read_csv(csv_path + test_pair_csv_filename)
@@ -92,15 +93,29 @@ def normalize(f):
         length = f.shape[0]
         if f.shape[0] < max_instructions:
             f = np.pad(f, (0, max_instructions - f.shape[0]), mode='constant')
-        return f, length
+        return f
 #----------------------------------------------
+# Load embedding vec
+embedding_vec = np.load(embedding_vec_file_path)
+print(embedding_vec.shape)
+
+def convert_to_vec(i2id_list):
+    ret_vec_arr = []
+    for id in i2id_list:
+        ret_vec_arr.append(embedding_vec[id])
+    return ret_vec_arr
+        
+    
+#--------------------------------------------
 # Actual logic
 # feature extraction for pairs in test_pairs_true_labels. Same could be applied to others pairs i.e test_false_pairs, train_true_pairs, train_false_pairs.
 test_true_paired_features = [] # contains list of mnemonic features from two ids in pair
+test_true_paired_feature_id = []
 test_true_paired_feature_vec = []
 test_true_id_pair_list = []
 for pairs in list_test_true_pairs :
     pair_feature_list = []
+    pair_feature_id_list = []
     pair_feature_vec_list = []
     test_true_id_pair_list.append(pairs)
     # print(pairs)
@@ -118,27 +133,28 @@ for pairs in list_test_true_pairs :
                 id_feature.extend(nodes['features'])
                 # print(id_feature)
         pair_feature_list.append(id_feature)
-        pair_feature_vec_list.append(convert_to_ids(id_feature))
+        normalized_feature_ids = normalize(convert_to_ids(id_feature))
+        pair_feature_id_list.append(normalized_feature_ids)
+        pair_feature_vec_list.append(convert_to_vec(normalized_feature_ids))
         # print(pair_feature_list)
         # print("~~~~~~~~~~~~~~~~~")
     test_true_paired_features.append(pair_feature_list)
+    test_true_paired_feature_id.append(pair_feature_vec_list)
     test_true_paired_feature_vec.append(pair_feature_vec_list)
     
     # print("************")
 # print(test_true_paired_features)
 # print(test_true_paired_feature_vec)
 print(len(test_true_paired_features))
-print(len(test_true_paired_feature_vec))
+print(len(test_true_paired_feature_id))
 print(len(test_true_id_pair_list))
 assert(len(test_true_paired_features) == len(test_true_id_pair_list))
 test_true_pair_labels = [1]*len(test_true_paired_features)
 
-test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_paired_features, 'feature_vec':test_true_paired_feature_vec , 'labels': test_true_pair_labels}
+test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_paired_features, 'feature_ids':test_true_paired_feature_id , 'feature_vec' : test_true_paired_feature_vec ,'labels': test_true_pair_labels}
 test_true_pair_df = pd.DataFrame(test_true_pair_dict)
 print(test_true_pair_df)
 print(len(test_true_pair_df))
 test_true_pair_df.to_csv("test_true_pairs.csv", sep=',')
-
-
 
 
