@@ -38,13 +38,13 @@ list_train_true_pairs = []
 list_train_false_pairs = []
 
 # These are for training pairs, too long , comment when not needed
-for i in range(0, df_train_pairs_shape[0]) :
-    list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
+# for i in range(0, df_train_pairs_shape[0]) :
+#     list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
 
-    list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
+#     list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
 
-print("list_train_true_pairs len : ", len(list_train_true_pairs))
-print("list_train_false_pairs len : ", len(list_train_false_pairs))
+# print("list_train_true_pairs len : ", len(list_train_true_pairs))
+# print("list_train_false_pairs len : ", len(list_train_false_pairs))
 
 # Just to test
 # ele = list_test_true_pairs[3][0]
