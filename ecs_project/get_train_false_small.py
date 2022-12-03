@@ -38,13 +38,13 @@ list_train_true_pairs = []
 list_train_false_pairs = []
 
 # These are for training pairs, too long , comment when not needed
-# for i in range(0, df_train_pairs_shape[0]) :
-#     list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
+for i in range(0, df_train_pairs_shape[0]) :
+    list_train_true_pairs.extend(literal_eval(df_train_pairs.loc[i]['true_pair'])) # Contains the list of ids of true_pairs (from test dataset)
 
-#     list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
+    list_train_false_pairs.extend(literal_eval(df_train_pairs.loc[i]['false_pair'])) # Contains the list of ids of false_pairs (from test dataset)
 
-# print("list_train_true_pairs len : ", len(list_train_true_pairs))
-# print("list_train_false_pairs len : ", len(list_train_false_pairs))
+print("list_train_true_pairs len : ", len(list_train_true_pairs))
+print("list_train_false_pairs len : ", len(list_train_false_pairs))
 
 # Just to test
 # ele = list_test_true_pairs[3][0]
@@ -114,7 +114,7 @@ test_true_paired_feature_id = []
 test_true_paired_feature_vec = []
 test_true_id_pair_list = []
 similar_count = 0
-for pairs in list_test_false_pairs[0:30000] :
+for pairs in list_train_false_pairs[0:30000] :
     pair_feature_list = []
     pair_feature_id_list = []
     pair_feature_vec_list = []
@@ -180,8 +180,8 @@ print(len(test_true_pair_df_vec))
 # test_true_pair_df.to_csv("../../ecsTest/ecs_project/test_false_new_pairs.csv", sep=',') # general info
 
 # pickle
-test_true_pair_df_vec.to_pickle("../../ecsTest/ecs_project/test_false_30k_new_pairs_vec.pkl")
-test_true_pair_df.to_pickle("../../ecsTest/ecs_project/test_false_30k_new_pairs.pkl") # general info
+test_true_pair_df_vec.to_pickle("../../ecsTest/ecs_project/train_false_30k_new_pairs_vec.pkl")
+test_true_pair_df.to_pickle("../../ecsTest/ecs_project/train_false_30k_new_pairs.pkl") # general info
 
 
 
