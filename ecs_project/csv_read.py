@@ -155,6 +155,10 @@ test_true_pair_dict = {'ids':test_true_id_pair_list , 'features': test_true_pair
 test_true_pair_df = pd.DataFrame(test_true_pair_dict)
 print(test_true_pair_df)
 print(len(test_true_pair_df))
+print(len(test_true_paired_feature_vec))
+print(len(test_true_paired_feature_vec[0]))
+print(len(test_true_paired_feature_vec[0][0]))
+print((test_true_paired_feature_vec[0][0][0].shape))
 test_true_pair_df.to_csv("test_true_pairs.csv", sep=',')
 
 
