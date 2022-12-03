@@ -114,7 +114,7 @@ test_true_paired_feature_id = []
 test_true_paired_feature_vec = []
 test_true_id_pair_list = []
 similar_count = 0
-for pairs in list_train_false_pairs[0:30000] :
+for pairs in list_train_false_pairs[30000:60000] :
     pair_feature_list = []
     pair_feature_id_list = []
     pair_feature_vec_list = []
@@ -180,8 +180,8 @@ print(len(test_true_pair_df_vec))
 # test_true_pair_df.to_csv("../../ecsTest/ecs_project/test_false_new_pairs.csv", sep=',') # general info
 
 # pickle
-test_true_pair_df_vec.to_pickle("../../ecsTest/ecs_project/train_false_30k_new_pairs_vec.pkl")
-test_true_pair_df.to_pickle("../../ecsTest/ecs_project/train_false_30k_new_pairs.pkl") # general info
+test_true_pair_df_vec.to_pickle("../../ecsTest/ecs_project/train_false_30k_2_new_pairs_vec.pkl")
+test_true_pair_df.to_pickle("../../ecsTest/ecs_project/train_false_30k_2_new_pairs.pkl") # general info
 
 
 
