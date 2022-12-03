@@ -176,8 +176,12 @@ print(len(test_true_pair_df_vec))
 # print(len(test_true_paired_feature_vec[0]))
 # print(len(test_true_paired_feature_vec[0][0]))
 # print((test_true_paired_feature_vec[0][0][0].shape))
-test_true_pair_df_vec.to_csv("../../ecsTest/ecs_project/test_false_new_pairs_vec.csv", sep=',')
-test_true_pair_df.to_csv("../../ecsTest/ecs_project/test_false_new_pairs.csv", sep=',') # general info
+# test_true_pair_df_vec.to_csv("../../ecsTest/ecs_project/test_false_new_pairs_vec.csv", sep=',')
+# test_true_pair_df.to_csv("../../ecsTest/ecs_project/test_false_new_pairs.csv", sep=',') # general info
+
+# pickle
+test_true_pair_df_vec.to_pickle("../../ecsTest/ecs_project/test_false_new_pairs_vec.pkl")
+test_true_pair_df.to_pickle("../../ecsTest/ecs_project/test_false_new_pairs.pkl") # general info
 
 
 
