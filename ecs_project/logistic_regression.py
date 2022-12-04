@@ -79,12 +79,13 @@ print(len(labels_train))
 classes = (0, 1)
 
 class Net(nn.Module):
-  def __init__(self,input_shape):
+  def __init__(self):
     super(Net,self).__init__()
-    self.fc1 = nn.Linear(input_shape,32)
+    self.fc1 = nn.Linear(100*100*2,32)
     self.fc2 = nn.Linear(32,64)
-    self.fc3 = nn.Linear(64,2)
+    self.fc3 = nn.Linear(64,1)
   def forward(self,x):
+    x = x.view(-1, 100*100*2)
     x = torch.relu(self.fc1(x))
     x = torch.relu(self.fc2(x))
     x = torch.sigmoid(self.fc3(x))
@@ -92,10 +93,10 @@ class Net(nn.Module):
 
 
 
-learning_rate = 0.01
+learning_rate = 0.001
 epochs = 10
 # Model , Optimizer, Loss
-model = Net(input_shape=100)
+model = Net()
 optimizer = torch.optim.SGD(model.parameters(),lr=learning_rate)
 loss_fn = nn.BCELoss()
 
@@ -112,8 +113,8 @@ for i in range(epochs):
     loss = loss_fn(output,y_train.reshape(-1,1))
  
     #accuracy
-    predicted = model(torch.tensor(x,dtype=torch.float32))
-    acc = (predicted.reshape(-1).detach().numpy().round() == y).mean()
+    predicted = model(torch.tensor(X_test,dtype=torch.float32))
+    acc = (predicted.reshape(-1).detach().numpy().round() == y_test).mean()
     #backprop
     optimizer.zero_grad()
     loss.backward()
@@ -124,12 +125,18 @@ for i in range(epochs):
     accur.append(acc)
     print("epoch {}\tloss : {}\t accuracy : {}".format(i,loss,acc))
     
-plt.plot(losses)
-plt.title('Loss vs Epochs')
-plt.xlabel('Epochs')
-plt.ylabel('loss')
+# plt.plot(losses)
+# plt.title('Loss vs Epochs')
+# plt.xlabel('Epochs')
+# plt.ylabel('loss')
 
-plt.plot(accur)
-plt.title('Accuracy vs Epochs')
-plt.xlabel('Accuracy')
-plt.ylabel('loss')
+# plt.plot(accur)
+# plt.title('Accuracy vs Epochs')
+# plt.xlabel('Accuracy')
+# plt.ylabel('loss')
+
+with open('../../ecsTest/ecs_project/result_10_epochs_logistic_r.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(zip(losses,accur))
+    
+print("Done!!")

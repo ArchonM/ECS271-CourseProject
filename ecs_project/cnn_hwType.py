@@ -9,6 +9,7 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import pandas as pd
+import csv
 
 
 class GetDataset(Dataset):
@@ -148,20 +149,20 @@ def train_model(net_model_t, learning_rate_t, trainloader_t, testloader_t, class
           # print statistics
           running_loss += loss.item()
           loss_sum += loss.item()
-          if i % 2000 == 1999:    # print every 2000 mini-batches
+          if i % 100 == 99:    # print every 2000 mini-batches
               print('[%d, %5d] loss: %.3f' %
                     (epoch + 1, i + 1, running_loss / 2000))
               running_loss = 0.0
       # print(len(trainloader_t))
       loss_per_epoch.append(loss_sum/len(trainloader_t))
-      training_accuracy_per_epoch.append(test_model_whole_dataset(net_model_t, trainloader_t, classes_t))
+    #   training_accuracy_per_epoch.append(test_model_whole_dataset(net_model_t, trainloader_t, classes_t))
       testing_accuracy_per_epoch.append(test_model_whole_dataset(net_model_t, testloader_t, classes_t))
-      # print("Done Epoch : ", epoch)
-      # print(loss_per_epoch)
-      # print(testing_accuracy_per_epoch)
-      # print(training_accuracy_per_epoch)
+      print("Done Epoch : ", epoch)
+      print(loss_per_epoch)
+      print(testing_accuracy_per_epoch)
+    #   print(training_accuracy_per_epoch)
   print('Finished Training')
-  return loss_per_epoch, training_accuracy_per_epoch, testing_accuracy_per_epoch
+  return loss_per_epoch, testing_accuracy_per_epoch
 
 
 # CNN
@@ -200,26 +201,32 @@ net_model_feed_q1 = net
 learning_rate_q1 = 0.001
 batch_size_q1 = 4
 no_of_epochs_q1 = 10
-loss_per_epoch_q1, training_accuracy_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1, learning_rate_q1, train_data_loader, test_data_loader, classes, no_of_epochs_q1)
+loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1, learning_rate_q1, train_data_loader, test_data_loader, classes, no_of_epochs_q1)
 # accuracy_per_class(net_model_feed_q1, testloader_q1, classes_q1, batch_size_q1)
 
 
-plt.plot(range(0,no_of_epochs_q1) , loss_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
-plt.title('Loss vs epochs - Question1')
-plt.show()
-
-#Traing_Accuracy_graph
-plt.plot(range(0,no_of_epochs_q1) , training_accuracy_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
-# plt.title('Training_Accuracy vs epochs - Question1')
+# plt.plot(range(0,no_of_epochs_q1) , loss_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
+# plt.title('Loss vs epochs - Question1')
 # plt.show()
 
-#Testing_Accuracy_graph
-plt.plot(range(0,no_of_epochs_q1) , testing_accuracy_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
-# plt.title('Testing_Accuracy vs epochs - Question1')
-# plt.show()
+# #Traing_Accuracy_graph
+# plt.plot(range(0,no_of_epochs_q1) , training_accuracy_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
+# # plt.title('Training_Accuracy vs epochs - Question1')
+# # plt.show()
 
-plt.legend(['Training_Acc', 'Testing_Acc'], loc='lower right')
-plt.title("Train_Acc & Test_acc vs epochs - Q1")
-plt.xlabel("No. of epochs")
-plt.ylabel("Accuracy")
-plt.show() 
+# #Testing_Accuracy_graph
+# plt.plot(range(0,no_of_epochs_q1) , testing_accuracy_per_epoch_q1) # Step here is the number of batches after which accuracy was calculated
+# # plt.title('Testing_Accuracy vs epochs - Question1')
+# # plt.show()
+
+# plt.legend(['Training_Acc', 'Testing_Acc'], loc='lower right')
+# plt.title("Train_Acc & Test_acc vs epochs - Q1")
+# plt.xlabel("No. of epochs")
+# plt.ylabel("Accuracy")
+# plt.show() 
+
+with open('../../ecsTest/ecs_project/result_10_epoch_cnn_hw.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(zip(range(0,no_of_epochs_q1), loss_per_epoch_q1,testing_accuracy_per_epoch_q1 ))
+    
+print("Done!!")
