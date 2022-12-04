@@ -2,3 +2,5 @@ ecs_project/csv_files
 ecs_project/csv_files.zip
 ecs_project/*.csv
 *.csv
+*.zip
+*.pkl
