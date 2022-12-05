@@ -226,7 +226,7 @@ loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1
 # plt.ylabel("Accuracy")
 # plt.show() 
 
-with open('../../ecsTest/ecs_project/result_100_epoch_cnn_hw.csv', 'w') as f:
+with open('../../ecsTest/ecs_project/result_b100_e100_mlp.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(range(0,no_of_epochs_q1), loss_per_epoch_q1,testing_accuracy_per_epoch_q1 ))
     
