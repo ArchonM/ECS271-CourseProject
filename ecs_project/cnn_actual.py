@@ -11,7 +11,8 @@ import torch.nn.functional as F
 import pandas as pd
 import csv
 
-# Quite fast so 100 epochs
+
+# https://www.kaggle.com/code/shtrausslearning/pytorch-cnn-binary-image-classification
 
 class GetDataset(Dataset):
 
@@ -171,27 +172,27 @@ class Net(nn.Module):  # Question 1
   #We define the layers of the network in the __init__ function and specify how data will pass through the network in the forward function. (Q- use cpu/gpu)
     def __init__(self):
         super(Net, self).__init__()
-        # self.conv1 = nn.Conv2d(2, 6, 5)  # (in-channel, out-channel, kernel_size) Q - how we decide number of i/p, o/p channel
-        # self.pool = nn.MaxPool2d(2, 2)
-        # self.conv2 = nn.Conv2d(6, 16, 5)
-        # self.fc1 = nn.Linear(16 * 5 * 5, 120)  # (size of each input sample, size of each output sample)
-        # self.fc2 = nn.Linear(120, 84)
-        # self.fc3 = nn.Linear(84, 1)
-        self.fc1_q3 = nn.Linear(100*100*2, 110)  # (size of each input sample, size of each output sample)
-        self.fc2_q3 = nn.Linear(110, 74)
-        self.fc3_q3 = nn.Linear(74, 2)
+        self.conv1 = nn.Conv2d(2, 6, 5)  # (in-channel, out-channel, kernel_size) Q - how we decide number of i/p, o/p channel
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        self.fc1 = nn.Linear(16 * 22 * 22, 120)  # (size of each input sample, size of each output sample)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 2)
+        # self.fc1_q3 = nn.Linear(100*100*2, 110)  # (size of each input sample, size of each output sample)
+        # self.fc2_q3 = nn.Linear(110, 74)
+        # self.fc3_q3 = nn.Linear(74, 2)
 
     def forward(self, x):
-        # x = self.pool(F.relu(self.conv1(x)))
-        # x = self.pool(F.relu(self.conv2(x)))
-        # x = x.view(-1, 16 * 5 * 5)
-        # x = F.relu(self.fc1(x))
-        # x = F.relu(self.fc2(x))
-        # x = self.fc3(x)
-        x = x.view(-1, 100*100*2)
-        x = F.relu(self.fc1_q3(x))  # with ReLU
-        x = F.relu(self.fc2_q3(x))
-        x = self.fc3_q3(x)
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = x.view(-1, 16 * 22 * 22)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        # x = x.view(-1, 100*100*2)
+        # x = F.relu(self.fc1_q3(x))  # with ReLU
+        # x = F.relu(self.fc2_q3(x))
+        # x = self.fc3_q3(x)
         return x
 
 
@@ -200,8 +201,7 @@ print(net)
 
 net_model_feed_q1 = net 
 learning_rate_q1 = 0.001
-batch_size_q1 = 4
-no_of_epochs_q1 = 100
+no_of_epochs_q1 = 30
 loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1, learning_rate_q1, train_data_loader, test_data_loader, classes, no_of_epochs_q1)
 # accuracy_per_class(net_model_feed_q1, testloader_q1, classes_q1, batch_size_q1)
 
@@ -226,7 +226,7 @@ loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1
 # plt.ylabel("Accuracy")
 # plt.show() 
 
-with open('../../ecsTest/ecs_project/result_100_epoch_cnn_hw.csv', 'w') as f:
+with open('../../ecsTest/ecs_project/result_b100_e30_cnn_actual.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(range(0,no_of_epochs_q1), loss_per_epoch_q1,testing_accuracy_per_epoch_q1 ))
     

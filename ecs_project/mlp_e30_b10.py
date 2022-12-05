@@ -74,7 +74,7 @@ print(y_test.shape)
 # testdataset = GetDataset(X_test, y_test, transform=transforms.Compose([transforms.ToTensor()]))
 # testdataset = GetDataset(X_test, y_test)
 testdataset = TensorDataset(X_test, y_test)
-test_data_loader = DataLoader(testdataset, batch_size=100, shuffle=True, num_workers=0)
+test_data_loader = DataLoader(testdataset, batch_size=10, shuffle=True, num_workers=0)
 
 # Just for trial
 dataiter_test = iter(test_data_loader)
@@ -87,7 +87,7 @@ print(len(labels_test))
 # traindataset = GetDataset(X_train, y_train, transform=transforms.Compose([transforms.ToTensor()]))
 # traindataset = GetDataset(X_train, y_train)
 traindataset = TensorDataset(X_train, y_train)
-train_data_loader = DataLoader(traindataset, batch_size=100, shuffle=True, num_workers=0)
+train_data_loader = DataLoader(traindataset, batch_size=10, shuffle=True, num_workers=0)
 
 # Just for trial
 
@@ -159,8 +159,8 @@ def train_model(net_model_t, learning_rate_t, trainloader_t, testloader_t, class
     #   training_accuracy_per_epoch.append(test_model_whole_dataset(net_model_t, trainloader_t, classes_t))
       testing_accuracy_per_epoch.append(test_model_whole_dataset(net_model_t, testloader_t, classes_t))
       print("Done Epoch : ", epoch)
-      print(loss_per_epoch)
-      print(testing_accuracy_per_epoch)
+    #   print(loss_per_epoch)
+    #   print(testing_accuracy_per_epoch)
     #   print(training_accuracy_per_epoch)
   print('Finished Training')
   return loss_per_epoch, testing_accuracy_per_epoch
@@ -201,7 +201,7 @@ print(net)
 net_model_feed_q1 = net 
 learning_rate_q1 = 0.001
 batch_size_q1 = 4
-no_of_epochs_q1 = 100
+no_of_epochs_q1 = 30
 loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1, learning_rate_q1, train_data_loader, test_data_loader, classes, no_of_epochs_q1)
 # accuracy_per_class(net_model_feed_q1, testloader_q1, classes_q1, batch_size_q1)
 
@@ -226,7 +226,7 @@ loss_per_epoch_q1, testing_accuracy_per_epoch_q1 = train_model(net_model_feed_q1
 # plt.ylabel("Accuracy")
 # plt.show() 
 
-with open('../../ecsTest/ecs_project/result_100_epoch_cnn_hw.csv', 'w') as f:
+with open('../../ecsTest/ecs_project/result_b10_e30_mlp.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(range(0,no_of_epochs_q1), loss_per_epoch_q1,testing_accuracy_per_epoch_q1 ))
     

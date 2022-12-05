@@ -9,9 +9,11 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import pandas as pd
+import csv
+
 
 # Link - https://medium.com/analytics-vidhya/pytorch-for-deep-learning-binary-classification-logistic-regression-382abd97fb43
-
+# Takes a lot time, so just 10 epochs
 # class GetDataset(Dataset):
 
 #     def __init__(self, X_Train, Y_Train, transform=None):
@@ -94,7 +96,7 @@ class Net(nn.Module):
 
 
 learning_rate = 0.001
-epochs = 10
+epochs = 30
 # Model , Optimizer, Loss
 model = Net()
 optimizer = torch.optim.SGD(model.parameters(),lr=learning_rate)
@@ -120,7 +122,7 @@ for i in range(epochs):
     loss.backward()
     optimizer.step()
 
-  if i%50 == 0:
+#   if i%50 == 0:
     losses.append(loss)
     accur.append(acc)
     print("epoch {}\tloss : {}\t accuracy : {}".format(i,loss,acc))
@@ -135,7 +137,7 @@ for i in range(epochs):
 # plt.xlabel('Accuracy')
 # plt.ylabel('loss')
 
-with open('../../ecsTest/ecs_project/result_10_epochs_logistic_r.csv', 'w') as f:
+with open('../../ecsTest/ecs_project/result_30_epochs_logistic_r.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(zip(losses,accur))
     
